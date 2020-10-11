@@ -19,6 +19,8 @@ public class CardDeliveryTest {
         $("[data-test-id=agreement]").click();
         $("[type=button] [class='button__text']").click();
         $("[data-test-id=notification]").waitUntil(Condition.visible, 10000);
+        // 1 вариант: написать логику календаря;
+        // 2 вариант: листать страницу и тыкать на последнюю строчку всегда;
     }
 }
 
