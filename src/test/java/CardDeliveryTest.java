@@ -11,6 +11,7 @@ public class CardDeliveryTest {
     void successCase() {
         open("http://localhost:9999/");
         $("[data-test-id=city] input[class=input__control]").setValue("Вл");
+        $("[class='popup__content']").waitUntil(Condition.visible,1000);  // локально эта строка взрывается. Хочу проверить CI
         $(byText("Владивосток")).click();
         $("[data-test-id=date] button[type=button]").click();
         $("[class='popup__container'] [data-day='1604066400000']").click();
