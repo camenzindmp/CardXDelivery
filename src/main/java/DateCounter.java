@@ -28,11 +28,10 @@ public class dateCounter { // get current date
     }
 }
 */
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class dateCounter {
+public class DateCounter {
 
     public static void main(String[] args) {
         LocalDate date =  LocalDate.now().plusDays(4);
