@@ -11,11 +11,10 @@ public class CardDeliveryTest {
 /*  @Test
         // реализация successCase с внедрением логики стороннего класса;
     void successCase() {
-
         open("http://localhost:9999/");
         $("[data-test-id=city] input[class=input__control]").setValue("Вл");
         $(byText("Владивосток")).click();
-        $("[data-test-id=date] [type=tel]").setValue(LocalDateFromDateCounterClass);
+        $("[data-test-id=date] [type=tel]").setValue(LocalDateFromDateCounterClass); // не разобрался как реализовать использование класса DateCounter.java;
         $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
         $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
@@ -33,8 +32,7 @@ public class CardDeliveryTest {
         $(byText("Владивосток")).click();
         $("[data-test-id=date] button[type=button]").click();    // клик на иконку календаря;
         $("[class='popup__container'] [data-step='1']").click(); // переход на следующую страницу календаря;
-        // Изначально хотел выбирать третью строку в календаре и затем первую дату в строке,
-        // но исходя из того, что на следующей странице всегда будет число 5 и оно всегда будет
+        // Исходя из того, что на следующей странице всегда будет число 5 и оно всегда будет
         // не ранее трёх дней с текущей даты, оставил такую реализацию --->
         $(byText("5")).click();
         $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");

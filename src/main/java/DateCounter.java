@@ -34,8 +34,8 @@ import java.time.format.DateTimeFormatter;
 public class DateCounter {
 
     public static void main(String[] args) {
-        LocalDate date =  LocalDate.now().plusDays(4);
-        System.out.println("Adding one day to current date: "+date);
+        LocalDate date =  LocalDate.now().plusDays(7);
+        System.out.println("Adding 7 day to current date: "+date);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         System.out.println(date.format(formatter));
     }
