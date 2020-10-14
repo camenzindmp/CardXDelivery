@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.open;
 public class CardDeliveryTest {
 /*  @Test
         // реализация successCase с внедрением логики стороннего класса;
-    void successCase() {
+    void successCaseWithCounter() {
         open("http://localhost:9999/");
         $("[data-test-id=city] input[class=input__control]").setValue("Вл");
         $(byText("Владивосток")).click();
