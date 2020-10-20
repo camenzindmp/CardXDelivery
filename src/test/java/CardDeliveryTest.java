@@ -16,16 +16,16 @@ public class CardDeliveryTest {
         open("http://localhost:9999/");
         $("[data-test-id=city] input[class=input__control]").setValue("Владивосток");
         $("[data-test-id=date] [class='input__box'] [class='input__control']").doubleClick().sendKeys(Keys.BACK_SPACE); // очистка инпута даты;
-        LocalDate date = LocalDate.now().plusDays(7);  // вычисление текущей даты + 7 дней;
+        LocalDate meetingDate = LocalDate.now().plusDays(7);  // вычисление текущей даты + 7 дней;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy"); // перевод даты в нужный формат;
-        $("[data-test-id=date] [type=tel]").setValue(date.format(formatter)); // ввод даты в нужном формате в инпут;
+        $("[data-test-id=date] [type=tel]").setValue(meetingDate.format(formatter)); // ввод даты в нужном формате в инпут;
         $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
         $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
         $("[type=button] [class='button__text']").click();
         $("[data-test-id=notification]").waitUntil(Condition.visible, 15000);
         String successText = $("[data-test-id=notification]").getText(); // получить текст и дату из нотификейшена;
-        assertEquals("Успешно!\nВстреча успешно забронирована на " + date.format(formatter), successText); // сравнить текст и дату из нотификейшена с ожидаемым текстом и текущей датой;
+        assertEquals("Успешно!\nВстреча успешно забронирована на " + meetingDate.format(formatter), successText); // сравнить текст и дату из нотификейшена с ожидаемым текстом и текущей датой;
     }
 
     // кейс с вводом города не из списка административных центров субъектов РФ:
@@ -95,24 +95,32 @@ public class CardDeliveryTest {
         $(byText("Поле обязательно для заполнения")).shouldBe(Condition.visible);
     }
 
-    //=========================================================>
     // ЗАДАНИЕ 2!
-//    @Test
-//    void taskTwo() {
-//        open("http://localhost:9999/");
-//        $("[data-test-id=city] input[class=input__control]").setValue("Вл");
-//        $(byText("Владивосток")).click();
-//        $("[data-test-id=date] button[type=button]").click();    // клик на иконку календаря;
-//        $("[class='popup__container'] [data-step='1']").click(); // переход на следующую страницу календаря;
-//        // Исходя из того, что на следующей странице всегда будет число 5 и оно всегда будет
-//        // не ранее трёх дней с текущей даты, оставил такую реализацию --->
-//        $(byText("5")).click();
-//        $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
-//        $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
-//        $("[data-test-id=agreement]").click();
-//        $("[type=button] [class='button__text']").click();
-//        $("[data-test-id=notification]").waitUntil(Condition.visible, 15000);
-//    }
+    //=========================================================>
+    @Test
+    void secondTask() {
+        open("http://localhost:9999/");
+        $("[data-test-id=city] input[class=input__control]").setValue("Вл");
+        $(byText("Владивосток")).click();
+        $("[data-test-id=date] button[type=button]").click();
+        LocalDate currentDate = LocalDate.now(); // расчет текущей даты;
+        LocalDate meetingDate = LocalDate.now().plusDays(7); // расчет текущей даты +7 дней;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy"); // перевод даты в нужный формат;
+        int currentMonth = currentDate.getMonthValue(); // значение месяца от текущей даты;
+        int meetingMonth = meetingDate.getMonthValue(); // значение месяца о текущей даты +7 дней;
+        int meetingDay = meetingDate.getDayOfMonth(); // расчет дня от ткущей даты +7 дней;
+        if (meetingMonth != currentMonth) { // сравнение значений месяца текщей даты и текущей +7 дней;
+            $("[class='popup__container'] [data-step='1']").click(); // переход на следующую страницу календаря;
+        }
+        $(byText(String.valueOf(meetingDay))).click(); // поиск по значению дня от текущей даты+7 дней;
+        $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
+        $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
+        $("[data-test-id=agreement]").click();
+        $("[type=button] [class='button__text']").click();
+        $("[data-test-id=notification]").waitUntil(Condition.visible, 15000);
+        String successText = $("[data-test-id=notification]").getText();
+        assertEquals("Успешно!\nВстреча успешно забронирована на " + meetingDate.format(formatter), successText);
+    }
 }
 
 
