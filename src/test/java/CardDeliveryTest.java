@@ -1,45 +1,31 @@
 import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-//import static org.hamcrest.MatcherAssert.assertThat;
-//import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CardDeliveryTest {
-/*  @Test
-        // реализация successCase с внедрением логики стороннего класса;
+    @Test
     void successCaseWithCounter() {
         open("http://localhost:9999/");
-        $("[data-test-id=city] input[class=input__control]").setValue("Вл");
-        $(byText("Владивосток")).click();
-        $("[data-test-id=date] [type=tel]").setValue(LocalDateFromDateCounterClass); // не разобрался как реализовать использование класса DateCounter.java;
-        $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
-        $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
-        $("[data-test-id=agreement]").click();
-        $("[type=button] [class='button__text']").click();
-        $("[data-test-id=notification]").waitUntil(Condition.visible, 10000);
-        // 1 вариант: написать логику календаря;
-        // 2 вариант: листать страницу и тыкать на последнюю строчку всегда;
-    }*/
-
-    // successCase без использования класса DateCounter:
-    @Test
-    void successCase() {
-        open("http://localhost:9999/");
-        $("[data-test-id=city] input[class=input__control]").setValue("Вл");
-        $(byText("Владивосток")).click();
-        $("[data-test-id=date] button[type=button]").click();    // клик на иконку календаря;
-        $("[class='popup__container'] [data-step='1']").click(); // переход на следующую страницу календаря;
-        // Исходя из того, что на следующей странице всегда будет число 5 и оно всегда будет
-        // не ранее трёх дней с текущей даты, оставил такую реализацию --->
-        $(byText("5")).click();
+        $("[data-test-id=city] input[class=input__control]").setValue("Владивосток");
+        $("[data-test-id=date] [class='input__box'] [class='input__control']").doubleClick().sendKeys(Keys.BACK_SPACE); // очистка инпута даты;
+        LocalDate date = LocalDate.now().plusDays(7);  // вычисление текущей даты + 7 дней;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy"); // перевод даты в нужный формат;
+        $("[data-test-id=date] [type=tel]").setValue(date.format(formatter)); // ввод даты в нужном формате в инпут;
         $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
         $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
         $("[type=button] [class='button__text']").click();
         $("[data-test-id=notification]").waitUntil(Condition.visible, 15000);
+        String successText = $("[data-test-id=notification]").getText(); // получить текст и дату из нотификейшена;
+        assertEquals("Успешно!\nВстреча успешно забронирована на " + date.format(formatter), successText); // сравнить текст и дату из нотификейшена с ожидаемым текстом и текущей датой;
     }
 
     // кейс с вводом города не из списка административных центров субъектов РФ:
@@ -50,8 +36,6 @@ public class CardDeliveryTest {
         $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
         $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
-//        String badCityName = $("[type=button] [class='button__text']").getText();
-//        Assert.that(badCityName, equals("Доставка в выбранный город недоступна"));
         $("[type=button] [class='button__text']").click();
         $("[data-test-id=city].input_invalid").shouldBe(Condition.visible);
     }
@@ -110,6 +94,25 @@ public class CardDeliveryTest {
         $("[type=button] [class='button__text']").click();
         $(byText("Поле обязательно для заполнения")).shouldBe(Condition.visible);
     }
+
+    //=========================================================>
+    // ЗАДАНИЕ 2!
+//    @Test
+//    void taskTwo() {
+//        open("http://localhost:9999/");
+//        $("[data-test-id=city] input[class=input__control]").setValue("Вл");
+//        $(byText("Владивосток")).click();
+//        $("[data-test-id=date] button[type=button]").click();    // клик на иконку календаря;
+//        $("[class='popup__container'] [data-step='1']").click(); // переход на следующую страницу календаря;
+//        // Исходя из того, что на следующей странице всегда будет число 5 и оно всегда будет
+//        // не ранее трёх дней с текущей даты, оставил такую реализацию --->
+//        $(byText("5")).click();
+//        $("[data-test-id=name] [type=text]").setValue("Имя Фамилия");
+//        $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
+//        $("[data-test-id=agreement]").click();
+//        $("[type=button] [class='button__text']").click();
+//        $("[data-test-id=notification]").waitUntil(Condition.visible, 15000);
+//    }
 }
 
 
