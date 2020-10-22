@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -37,7 +38,7 @@ public class CardDeliveryTest {
         $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
         $("[type=button] [class='button__text']").click();
-        $("[data-test-id=city].input_invalid").shouldBe(Condition.visible);
+        $("[data-test-id=city].input_invalid").shouldBe(Condition.visible).shouldHave(text("Доставка в выбранный город недоступна"));
     }
 
     // кейс с вводом некорректного имени пользователя:
@@ -49,7 +50,7 @@ public class CardDeliveryTest {
         $("[data-test-id=phone] [type=tel]").setValue("+79012345678");
         $("[data-test-id=agreement]").click();
         $("[type=button] [class='button__text']").click();
-        $("[data-test-id=name].input_invalid").shouldBe(Condition.visible);
+        $("[data-test-id=name].input_invalid").shouldBe(Condition.visible).shouldHave(text("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
     }
 
     // кейс с вводом номера телефона >12 символов:
@@ -61,7 +62,7 @@ public class CardDeliveryTest {
         $("[data-test-id=phone] [type=tel]").setValue("+790123456784325416541313254");
         $("[data-test-id=agreement]").click();
         $("[type=button] [class='button__text']").click();
-        $("[data-test-id=phone].input_invalid").shouldBe(Condition.visible);
+        $("[data-test-id=phone].input_invalid").shouldBe(Condition.visible).shouldHave(text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
     }
 
     // посторонние символы в номере телфона:
@@ -73,7 +74,7 @@ public class CardDeliveryTest {
         $("[data-test-id=phone] [type=tel]").setValue("+7901j#@./,*");
         $("[data-test-id=agreement]").click();
         $("[type=button] [class='button__text']").click();
-        $("[data-test-id=phone].input_invalid").shouldBe(Condition.visible);
+        $("[data-test-id=phone].input_invalid").shouldBe(Condition.visible).shouldHave(text("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
     }
 
     // не отмечен чекбокс:
@@ -92,7 +93,7 @@ public class CardDeliveryTest {
     void sendEmptyForm() {
         open("http://localhost:9999/");
         $("[type=button] [class='button__text']").click();
-        $(byText("Поле обязательно для заполнения")).shouldBe(Condition.visible);
+        $(byText("Поле обязательно для заполнения")).shouldBe(Condition.visible).shouldHave(text("Поле обязательно для заполнения"));
     }
 
     // ЗАДАНИЕ 2!
